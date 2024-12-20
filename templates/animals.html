@@ -22,7 +22,10 @@
     <h1>Animals</h1>
     <input type="text" id="search" placeholder="Search by Name or Species" onkeyup="filterAnimals()">
     
-    <table>
+    <!-- No Data Matches message -->
+    <div id="noDataMessage" style="display: none; color: red;">No Data Matches</div>
+
+    <table id="animalTable">
         <thead>
             <tr>
                 <th>Animal ID</th>
@@ -62,17 +65,27 @@
         function filterAnimals() {
             const searchValue = document.getElementById('search').value.toLowerCase();
             const rows = document.querySelectorAll('#animalTable tbody tr');
-            
+            let matchFound = false;
+
             rows.forEach(row => {
                 const name = row.cells[1].innerText.toLowerCase();
                 const species = row.cells[2].innerText.toLowerCase();
 
                 if (name.includes(searchValue) || species.includes(searchValue)) {
                     row.style.display = ''; // Show row if it matches
+                    matchFound = true;
                 } else {
                     row.style.display = 'none'; // Hide row if no match
                 }
             });
+
+            // Display "No Data Matches" message if no rows match
+            const noDataMessage = document.getElementById('noDataMessage');
+            if (!matchFound) {
+                noDataMessage.style.display = 'block';
+            } else {
+                noDataMessage.style.display = 'none';
+            }
         }
     </script>
 </body>

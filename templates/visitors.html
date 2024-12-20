@@ -10,6 +10,11 @@
             width: 200px;
             margin-bottom: 20px;
         }
+        #noDataMessage {
+            color: red;
+            margin-top: 10px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -29,6 +34,9 @@
     <!-- Search Form -->
     <label for="search">Search by Visitor Name:</label>
     <input type="text" id="search" placeholder="Enter visitor name" onkeyup="filterVisitors()">
+
+    <!-- No Data Matches Message -->
+    <div id="noDataMessage">No Data Matches</div>
 
     <br><br>
 
@@ -69,19 +77,29 @@
 
     <script>
         function filterVisitors() {
-            const searchValue = document.getElementById('search').value.toLowerCase();  // Get the search input value
-            const rows = document.querySelectorAll('#visitorTable tbody tr');  // Select all visitor rows
+            const searchValue = document.getElementById('search').value.toLowerCase(); // Get the search input value
+            const rows = document.querySelectorAll('#visitorTable tbody tr'); // Select all visitor rows
+            let matchFound = false;
 
             rows.forEach(row => {
-                const name = row.cells[1].innerText.toLowerCase();  // Get the visitor's name from the second column
+                const name = row.cells[1].innerText.toLowerCase(); // Get the visitor's name from the second column
 
                 // Check if the name contains the search value
                 if (name.includes(searchValue)) {
-                    row.style.display = '';  // Show the row if it matches
+                    row.style.display = ''; // Show the row if it matches
+                    matchFound = true;
                 } else {
-                    row.style.display = 'none';  // Hide the row if it doesn't match
+                    row.style.display = 'none'; // Hide the row if it doesn't match
                 }
             });
+
+            // Display "No Data Matches" message if no rows match
+            const noDataMessage = document.getElementById('noDataMessage');
+            if (!matchFound) {
+                noDataMessage.style.display = 'block';
+            } else {
+                noDataMessage.style.display = 'none';
+            }
         }
     </script>
 </body>

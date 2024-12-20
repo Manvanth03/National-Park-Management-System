@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/styles.css">
     <title>Park Management</title>
+    <style>
+        #noDataMessage {
+            color: red;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -21,6 +28,8 @@
     
     <h1>Park Management</h1>
     <input type="text" id="search" placeholder="Search by Name or Location" onkeyup="filterParks()">
+    <div id="noDataMessage">No Data Matches</div>
+    
     <table border="1" id="parkTable">
         <thead>
             <tr>
@@ -33,20 +42,26 @@
             </tr>
         </thead>
         <tbody>
-            {% for park in parks %}
-            <tr>
-                <td>{{ park[0] }}</td>
-                <td>{{ park[1] }}</td>
-                <td>{{ park[2] }}</td>
-                <td>{{ park[3] }}</td>
-                <td>{{ park[4] }}</td>
-                <td>
-                    <form method="POST" action="/delete_park/{{ park[0] }}">
-                        <button type="submit">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
+            {% if parks %}
+                {% for park in parks %}
+                <tr>
+                    <td>{{ park[0] }}</td>
+                    <td>{{ park[1] }}</td>
+                    <td>{{ park[2] }}</td>
+                    <td>{{ park[3] }}</td>
+                    <td>{{ park[4] }}</td>
+                    <td>
+                        <form method="POST" action="/delete_park/{{ park[0] }}">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="6">No parks found.</td>
+                </tr>
+            {% endif %}
         </tbody>
     </table>
 
@@ -56,21 +71,30 @@
         function filterParks() {
             const searchValue = document.getElementById('search').value.toLowerCase();
             const rows = document.querySelectorAll('#parkTable tbody tr');
-            
+            let matchFound = false;
+
             rows.forEach(row => {
-                // Get all the text content from the row (name and location columns)
+                // Get the name and location columns
                 const name = row.cells[1].innerText.toLowerCase();
                 const location = row.cells[2].innerText.toLowerCase();
-    
-                // Check if the search value is in either the name or location
+
+                // Check if the search value matches either column
                 if (name.includes(searchValue) || location.includes(searchValue)) {
-                    row.style.display = ''; // Show row if it matches
+                    row.style.display = ''; // Show matching rows
+                    matchFound = true;
                 } else {
-                    row.style.display = 'none'; // Hide row if no match
+                    row.style.display = 'none'; // Hide non-matching rows
                 }
             });
+
+            // Show "No Data Matches" if no rows are visible
+            const noDataMessage = document.getElementById('noDataMessage');
+            if (!matchFound) {
+                noDataMessage.style.display = 'block';
+            } else {
+                noDataMessage.style.display = 'none';
+            }
         }
     </script>
-    
 </body>
 </html>
