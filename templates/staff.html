@@ -1,0 +1,92 @@
+<!-- staff.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Staff</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/park">Park</a></li>
+            <li><a href="/animals">Animals</a></li>
+            <li><a href="/staff">Staff</a></li>
+            <li><a href="/visitors">Visitors</a></li>         
+            <li><a href="/conservation">Conservation</a></li>
+            <li><a href="/conservation_view">Conservation Status</a></li>
+        </ul>
+    </nav>
+    <h1>Staff Members</h1>
+
+    <!-- Search bar to filter staff by name -->
+    <form action="/staff" method="POST">
+        <input type="text" name="search" id="search" placeholder="Search by Name" onkeyup="filterStaff()">
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Message to show if no data matches -->
+    <p id="noDataMessage" style="display:none; color: red;">No Data Matches</p>
+
+    <table border="1" id="staffTable">
+        <thead>
+            <tr>
+                <th>Staff ID</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Park ID</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for staff in staff_members %}
+                <tr>
+                    <td>{{ staff.staff_id }}</td>
+                    <td>{{ staff.name }}</td>
+                    <td>{{ staff.role }}</td>
+                    <td>{{ staff.park_id }}</td>
+                    <td>
+                        <!-- Delete button -->
+                        <form action="{{ url_for('delete_staff', staff_id=staff.staff_id) }}" method="POST">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <a href="/add_staff">Add New Staff</a>
+
+    <script>
+        // Filter function for the search bar
+        function filterStaff() {
+            const searchValue = document.getElementById('search').value.toLowerCase();
+            const rows = document.querySelectorAll('#staffTable tbody tr');
+            let matchFound = false;
+
+            rows.forEach(row => {
+                const name = row.cells[1].innerText.toLowerCase();
+
+                if (name.includes(searchValue)) {
+                    row.style.display = ''; // Show row if it matches
+                    matchFound = true;
+                 } else {
+                     row.style.display = 'none'; // Hide row if no match
+                 }
+            });
+
+            // Show "No Data Matches" message if no matches found
+            const noDataMessage = document.getElementById('noDataMessage');
+            if (!matchFound) {
+                noDataMessage.style.display = 'block';
+            } else {
+                noDataMessage.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

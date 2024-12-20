@@ -1,0 +1,44 @@
+<!-- add_staff.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Add Staff</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/park">Park</a></li>
+            <li><a href="/animals">Animals</a></li>
+            <li><a href="/staff">Staff</a></li>
+            <li><a href="/visitors">Visitors</a></li>         
+            <li><a href="/conservation">Conservation</a></li>
+            <li><a href="/conservation_view">Conservation Status</a></li>
+        </ul>
+    </nav>
+    <h1>Add New Staff</h1>
+
+    <form action="/add_staff" method="POST">
+        <label for="staff_id">Staff ID:</label>
+        <input type="text" name="staff_id" id="staff_id" required><br>
+
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" required><br>
+
+        <label for="role">Role:</label>
+        <input type="text" name="role" id="role" required><br>
+
+        <label for="park_id">Park ID:</label>
+        <select name="park_id" id="park_id">
+            {% for park in parks %}
+                <option value="{{ park.park_id }}">{{ park.name }}</option>
+            {% endfor %}
+        </select><br>
+
+        <button type="submit">Add Staff</button>
+    </form>
+</body>
+</html>

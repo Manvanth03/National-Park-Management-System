@@ -78,9 +78,12 @@
             <li><a href="/staff">Staff</a></li>
             <li><a href="/visitors">Visitors</a></li>         
             <li><a href="/conservation">Conservation</a></li>
+            <li><a href="/conservation_view">Conservation Status</a></li>
         </ul>
     </nav>
-
+    <h1>Welcome, {{ current_user.username }}!</h1>
+    
+    <p><a href="/logout">Logout</a></p>
     <h1>Welcome to the Wildlife Management System</h1>
     <p>Lets's Explore the National Park Database</p>
 </body>

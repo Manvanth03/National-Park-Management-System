@@ -1,0 +1,50 @@
+<!-- conservation_view.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Conservation Status</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/park">Park</a></li>
+            <li><a href="/animals">Animals</a></li>
+            <li><a href="/staff">Staff</a></li>
+            <li><a href="/visitors">Visitors</a></li>
+            <li><a href="/conservation">Conservation</a></li>
+            <li><a href="/conservation_view">Conservation Status</a></li>
+        </ul>
+    </nav>
+
+    <h1>Conservation Program Status</h1>
+
+    <table border="1" id="conservationViewTable">
+        <thead>
+            <tr>
+                <th>Conservation ID</th>
+                <th>Program Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Park ID</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for program in conservation_view %}
+                <tr>
+                    <td>{{ program.conservation_id }}</td>
+                    <td>{{ program.program_name }}</td>
+                    <td>{{ program.start_date }}</td>
+                    <td>{{ program.end_date }}</td>
+                    <td>{{ program.park_id }}</td>
+                    <td>{{ program.program_status }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

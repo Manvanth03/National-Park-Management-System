@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Conservation Programs</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/park">Park</a></li>
+            <li><a href="/animals">Animals</a></li>
+            <li><a href="/staff">Staff</a></li>
+            <li><a href="/visitors">Visitors</a></li>         
+            <li><a href="/conservation">Conservation</a></li>
+            <li><a href="/conservation_view">Conservation Status</a></li>
+        </ul>
+    </nav>
+    <h1>Conservation Programs</h1>
+
+    <!-- Search bar -->
+    <form action="/conservation" method="POST">
+        <input type="text" name="search" id="search" placeholder="Search by Program Name" onkeyup="filterConservation()">
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- No Data Matches message -->
+    <div id="noDataMessage" style="display: none; color: red;">
+        No Data Matches
+    </div>
+
+    <table border="1" id="conservationTable">
+        <thead>
+            <tr>
+                <th>Conservation ID</th>
+                <th>Program Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>  <!-- Added End Date column -->
+                <th>Park ID</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for program in conservation_programs %}
+                <tr>
+                    <td>{{ program.conservation_id }}</td>
+                    <td>{{ program.program_name }}</td>
+                    <td>{{ program.start_date }}</td>
+                    <td>{{ program.end_date }}</td>
+                    <td>{{ program.park_id }}</td>
+                    <td>
+                        <!-- Delete button -->
+                        <form action="{{ url_for('delete_conservation', conservation_id=program.conservation_id) }}" method="POST">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <a href="/add_conservation">Add New Conservation Program</a>
+
+    <script>
+        function filterConservation() {
+            const searchValue = document.getElementById('search').value.toLowerCase();
+            const rows = document.querySelectorAll('#conservationTable tbody tr');
+            let matchFound = false;
+
+            rows.forEach(row => {
+                const programName = row.cells[1].innerText.toLowerCase();
+
+                if (programName.includes(searchValue)) {
+                    row.style.display = ''; // Show row if it matches
+                    matchFound = true;
+                } else {
+                    row.style.display = 'none'; // Hide row if no match
+                }
+            });
+
+            // Display "No Data Matches" message if no rows match
+            const noDataMessage = document.getElementById('noDataMessage');
+            if (!matchFound) {
+                noDataMessage.style.display = 'block'; // Show message if no match found
+            } else {
+                noDataMessage.style.display = 'none'; // Hide message if match found
+            }
+        }
+    </script>
+</body>
+</html>

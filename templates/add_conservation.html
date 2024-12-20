@@ -1,0 +1,50 @@
+<!-- add_conservation.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Add Conservation Program</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/park">Park</a></li>
+            <li><a href="/animals">Animals</a></li>
+            <li><a href="/staff">Staff</a></li>
+            <li><a href="/visitors">Visitors</a></li>         
+            <li><a href="/conservation">Conservation</a></li>
+            <li><a href="/conservation_view">Conservation Status</a></li>
+        </ul>
+    </nav>
+    <h1>Add New Conservation Program</h1>
+
+    <form action="/add_conservation" method="POST">
+        <label for="conservation_id">Conservation ID:</label>
+        <input type="text" id="conservation_id" name="conservation_id" required><br><br>
+
+        <label for="program_name">Program Name:</label>
+        <input type="text" id="program_name" name="program_name" required><br><br>
+
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" required><br><br>
+
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date"><br><br>
+
+
+        <label for="park_id">Park:</label>
+        <select id="park_id" name="park_id" required>
+            {% for park in parks %}
+                <option value="{{ park.park_id }}">{{ park.name }}</option>
+            {% endfor %}
+        </select>
+        
+        <br><br>
+
+        <button type="submit">Add Conservation Program</button>
+    </form>
+</body>
+</html>
