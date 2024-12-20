@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitors List</title>
+    <style>
+        input[type="text"] {
+            padding: 8px;
+            width: 200px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/park">Park</a></li>
+            <li><a href="/animals">Animals</a></li>
+            <li><a href="/staff">Staff</a></li>
+            <li><a href="/visitors">Visitors</a></li>
+            <li><a href="/conservation">Conservation</a></li>
+        </ul>
+    </nav>
+    <h1>Visitors List</h1>
+
+    <!-- Search Form -->
+    <label for="search">Search by Visitor Name:</label>
+    <input type="text" id="search" placeholder="Enter visitor name" onkeyup="filterVisitors()">
+
+    <br><br>
+
+    <!-- Visitors Table -->
+    <table id="visitorTable" border="1">
+        <thead>
+            <tr>
+                <th>Visitor ID</th>
+                <th>Name</th>
+                <th>Visit Date</th>
+                <th>Park</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if visitors %}
+                {% for visitor in visitors %}
+                <tr>
+                    <td>{{ visitor['visitor_id'] }}</td>
+                    <td>{{ visitor['name'] }}</td>
+                    <td>{{ visitor['visit_date'] }}</td>
+                    <td>{{ visitor['park_id'] }}</td>
+                    <td>
+                        <a href="/delete_visitor/{{ visitor['visitor_id'] }}">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="5">No visitors found.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <br>
+    <a href="/add_visitors">Add New Visitor</a>
+
+    <script>
+        function filterVisitors() {
+            const searchValue = document.getElementById('search').value.toLowerCase();  // Get the search input value
+            const rows = document.querySelectorAll('#visitorTable tbody tr');  // Select all visitor rows
+
+            rows.forEach(row => {
+                const name = row.cells[1].innerText.toLowerCase();  // Get the visitor's name from the second column
+
+                // Check if the name contains the search value
+                if (name.includes(searchValue)) {
+                    row.style.display = '';  // Show the row if it matches
+                } else {
+                    row.style.display = 'none';  // Hide the row if it doesn't match
+                }
+            });
+        }
+    </script>
+</body>
+</html>

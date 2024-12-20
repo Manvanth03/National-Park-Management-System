@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Add Park</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/park">Park</a></li>
+            <li><a href="/animals">Animals</a></li>
+            <li><a href="/staff">Staff</a></li>
+            <li><a href="/visitors">Visitors</a></li>            
+            <li><a href="/conservation">Conservation</a></li>
+        </ul>
+    </nav>
+
+    <h1>Add Park</h1>
+    <form method="POST" action="/add_park">
+        <label for="park_id">Park ID:</label>
+        <input type="text" id="park_id" name="park_id" required>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required>
+        <label for="established_year">Established Year:</label>
+        <input type="number" id="established_year" name="established_year" required>
+        <button type="submit">Add Park</button>
+    </form>
+</body>
+</html>

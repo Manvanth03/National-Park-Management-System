@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Animals</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/park">Park</a></li>
+            <li><a href="/animals">Animals</a></li>
+            <li><a href="/staff">Staff</a></li>
+            <li><a href="/visitors">Visitors</a></li>         
+            <li><a href="/conservation">Conservation</a></li>
+        </ul>
+    </nav>
+
+    <h1>Animals</h1>
+    <input type="text" id="search" placeholder="Search by Name or Species" onkeyup="filterAnimals()">
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Animal ID</th>
+                <th>Name</th>
+                <th>Species</th>
+                <th>Park ID</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if animals %}
+                {% for animal in animals %}
+                    <tr>
+                        <td>{{ animal['animal_id'] }}</td>
+                        <td>{{ animal['name'] }}</td>
+                        <td>{{ animal['species'] }}</td>
+                        <td>{{ animal['park_id'] }}</td>
+                        <td>
+                            <form action="/delete_animal" method="post">
+                                <input type="hidden" name="animal_id" value="{{ animal['animal_id'] }}">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="5">No animals found</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    
+    <button onclick="location.href='/add_animal'">Add Animal</button>
+
+    <script>
+        function filterAnimals() {
+            const searchValue = document.getElementById('search').value.toLowerCase();
+            const rows = document.querySelectorAll('#animalTable tbody tr');
+            
+            rows.forEach(row => {
+                const name = row.cells[1].innerText.toLowerCase();
+                const species = row.cells[2].innerText.toLowerCase();
+
+                if (name.includes(searchValue) || species.includes(searchValue)) {
+                    row.style.display = ''; // Show row if it matches
+                } else {
+                    row.style.display = 'none'; // Hide row if no match
+                }
+            });
+        }
+    </script>
+</body>
+</html>

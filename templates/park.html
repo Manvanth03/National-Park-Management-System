@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Park Management</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/park">Park</a></li>
+            <li><a href="/animals">Animals</a></li>
+            <li><a href="/staff">Staff</a></li>
+            <li><a href="/visitors">Visitors</a></li>
+            <li><a href="/conservation">Conservation</a></li>
+        </ul>
+    </nav>
+    
+    <h1>Park Management</h1>
+    <input type="text" id="search" placeholder="Search by Name or Location" onkeyup="filterParks()">
+    <table border="1" id="parkTable">
+        <thead>
+            <tr>
+                <th>Park ID</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Established Year</th>
+                <th>Visitor Count</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for park in parks %}
+            <tr>
+                <td>{{ park[0] }}</td>
+                <td>{{ park[1] }}</td>
+                <td>{{ park[2] }}</td>
+                <td>{{ park[3] }}</td>
+                <td>{{ park[4] }}</td>
+                <td>
+                    <form method="POST" action="/delete_park/{{ park[0] }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <button onclick="location.href='/add_park'">Add Park</button>
+
+    <script>
+        function filterParks() {
+            const searchValue = document.getElementById('search').value.toLowerCase();
+            const rows = document.querySelectorAll('#parkTable tbody tr');
+            
+            rows.forEach(row => {
+                // Get all the text content from the row (name and location columns)
+                const name = row.cells[1].innerText.toLowerCase();
+                const location = row.cells[2].innerText.toLowerCase();
+    
+                // Check if the search value is in either the name or location
+                if (name.includes(searchValue) || location.includes(searchValue)) {
+                    row.style.display = ''; // Show row if it matches
+                } else {
+                    row.style.display = 'none'; // Hide row if no match
+                }
+            });
+        }
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Animal</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/park">Park</a></li>
+            <li><a href="/animals">Animals</a></li>
+            <li><a href="/staff">Staff</a></li>
+            <li><a href="/visitors">Visitors</a></li>            
+            <li><a href="/conservation">Conservation</a></li>
+        </ul>
+    </nav>
+
+    <h1>Add New Animal</h1>
+    <form action="/add_animal" method="POST">
+        <label for="animal_id">Animal ID:</label>
+        <input type="text" id="animal_id" name="animal_id" required><br><br>
+
+        <label for="name">Animal Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="species">Species:</label>
+        <input type="text" id="species" name="species" required><br><br>
+
+        <label for="park_id">Park:</label>
+        <select id="park_id" name="park_id" required>
+            {% for park in parks %}
+                <option value="{{ park['park_id'] }}">{{ park['name'] }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <button type="submit">Add Animal</button>
+    </form>
+</body>
+</html>
