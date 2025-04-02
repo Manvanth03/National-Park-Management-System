@@ -4,19 +4,143 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visitors List</title>
-    <style>
-        input[type="text"] {
-            padding: 8px;
-            width: 200px;
-            margin-bottom: 20px;
-        }
-        #noDataMessage {
-            color: red;
-            margin-top: 10px;
-            display: none;
-        }
-    </style>
+    
 </head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+    }
+  
+    nav {
+      background: #4CAF50;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+    }
+    
+    nav ul li {
+      margin: 0 15px;
+    }
+    
+    nav ul li a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    
+    nav ul li a:hover {
+      color: #d4edda;
+    }
+  
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+        color: #343a40;
+    }
+  
+    #search {
+        display: block;
+        margin: 20px auto;
+        padding: 10px;
+        width: 50%;
+        font-size: 16px;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+    }
+  
+    #noDataMessage {
+        text-align: center;
+        margin: 20px auto;
+        font-size: 18px;
+        color: red;
+        display: none;
+    }
+  
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 90%;
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  table th, table td {
+      border: 1px solid #dee2e6;
+      padding: 10px;
+      text-align: center;
+  }
+
+  table th {
+      background-color:#4CAF50;
+      color: white;
+  }
+
+  table tbody tr:nth-child(even) {
+      background-color: #f2f2f2;
+  }
+
+  table tbody tr:hover {
+      background-color: #e9ecef;
+  }
+  
+    button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color:#4CAF50 ;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+  
+    button:hover {
+        background-color: #0056b3;
+    }
+  
+    form button {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+  
+    form button:hover {
+        background-color: #c82333;
+    }
+    .delete-button {
+    display: inline-block; /* Makes it appear like a button */
+    padding: 10px 15px; /* Adds space inside the button */
+    background-color: #dc3545; /* Red background color */
+    color: #ffffff; /* White text color */
+    text-decoration: none; /* Removes underline */
+    font-weight: bold; /* Makes the text bold */
+    border-radius: 5px; /* Adds rounded corners */
+    border: none; /* Removes border */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition for hover effects */
+    cursor: pointer; /* Changes cursor to pointer */
+}
+
+.delete-button:hover {
+    background-color: #b02a37; /* Darker red on hover */
+    transform: scale(1.05); /* Slightly enlarges the button */
+}
+
+  </style>
 <body>
     <nav>
         <ul>
@@ -32,8 +156,8 @@
     <h1>Visitors List</h1>
 
     <!-- Search Form -->
-    <label for="search">Search by Visitor Name:</label>
-    <input type="text" id="search" placeholder="Enter visitor name" onkeyup="filterVisitors()">
+    
+    <input type="text" id="search" placeholder="Search by Visitor Name" onkeyup="filterVisitors()">
 
     <!-- No Data Matches Message -->
     <div id="noDataMessage">No Data Matches</div>
@@ -60,7 +184,7 @@
                     <td>{{ visitor['visit_date'] }}</td>
                     <td>{{ visitor['park_id'] }}</td>
                     <td>
-                        <a href="/delete_visitor/{{ visitor['visitor_id'] }}">Delete</a>
+                        <a href="/delete_visitor/{{ visitor['visitor_id'] }}" class="delete-button">Delete</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -73,7 +197,8 @@
     </table>
 
     <br>
-    <a href="/add_visitors">Add New Visitor</a>
+    <button onclick="location.href='/add_visitors'">Add New Visitor</button>
+    
 
     <script>
         function filterVisitors() {
